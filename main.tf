@@ -13,9 +13,9 @@ provider "aws" {
 module "vpc" {
   source = "git::github.com/devendraappa/pvt-repo-module//?ref=v1.0.0"
 
-  region              = var.region
-  vpc_cidr            = var.vpc_cidr
-  public_subnet_cidrs = var.public_subnet_cidrs
-  availability_zones  = var.availability_zones
-  vpc_name            = var.vpc_name
+  #region              = var.region
+  #vpc_cidr            = var.vpc_cidr
+  #public_subnet_cidrs = var.public_subnet_cidrs
+  #availability_zones  = var.availability_zones
+  #vpc_name            = var.vpc_name
 }
