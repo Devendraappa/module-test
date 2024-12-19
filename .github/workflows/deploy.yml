@@ -1,4 +1,4 @@
-name: Deploy VPC-Module-Pvt registry
+name: Deploy VPC-Module-Pvt registry 
 
 on:
   push:
