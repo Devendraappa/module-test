@@ -1,4 +1,4 @@
-name: Terraform Workflow deploy
+name: Terraform Workflow
 
 on:
   push:
@@ -10,36 +10,55 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout the Public Repository
+      # Step 1: Checkout the Public Repo
       - name: Checkout Public Repo
         uses: actions/checkout@v3
 
-      # Step 2: Configure Git Authentication for Private Repo
-      - name: Authenticate to GitHub
+      # Step 2: Generate SSH key pair for accessing the private repository
+      - name: Generate SSH Key Pair
         run: |
-          git config --global url."https://$GIT_TOKEN:@github.com/".insteadOf "https://github.com/"
-        env:
-          GH_TOKEN: ${{ secrets.GIT_TOKEN }}
+          # Generate an SSH key pair (private and public)
+          ssh-keygen -t rsa -b 4096 -C "github-actions@github.com" -f /tmp/github_ssh_key -N ""
+          cat /tmp/github_ssh_key.pub
+        id: ssh_keys
 
-      # Step 3: Setup Terraform
-      - name: Setup Terraform
+      # Step 3: Add the SSH public key to GitHub (if not already added)
+      - name: Add SSH Key to GitHub
+        run: |
+          # Use GitHub CLI or API to add the SSH key as a deploy key (this step assumes you already added it manually)
+          echo "Add the SSH public key manually to your GitHub SSH keys settings"
+        env:
+          SSH_PUBLIC_KEY: ${{ steps.ssh_keys.outputs.result }}
+
+      # Step 4: Set up SSH for accessing the private repository
+      - name: Setup SSH for Private Repo
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ steps.ssh_keys.outputs.result }}
+
+      # Step 5: Set up Terraform
+      - name: Set up Terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.5.0
 
-      # Step 4: Initialize Terraform
+      # Step 6: Terraform Init
       - name: Terraform Init
         run: terraform init
 
-      # Step 5: Validate Terraform
+      # Step 7: Terraform Validate
       - name: Terraform Validate
         run: terraform validate
 
-      # Step 6: Plan Terraform Changes
+      # Step 8: Terraform Plan
       - name: Terraform Plan
         run: terraform plan
 
-      # Step 7: Apply Terraform Changes (Optional)
+      # Step 9: Apply Terraform (Optional)
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main'
         run: terraform apply -auto-approve
