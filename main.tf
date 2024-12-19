@@ -6,6 +6,7 @@
   #region = "ap-south-1"  # Example of passing a variable to the module
 #}
 
+
 provider "aws" {
   region = "ap-south-1"
 }
