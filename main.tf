@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "vpc" {
-  source = "git::https://github.com/devendraappa/pvt-repo-module.git//vpc-module"
+  source = "git::https://github.com/devendraappa/pvt-repo-module.git//vpc-module?ref=main"
 
   region              = "ap-south-1"
   vpc_cidr            = "10.0.0.0/16"
