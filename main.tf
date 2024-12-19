@@ -3,9 +3,8 @@ provider "aws" {
 }
 
 module "vpc" {
-  source = "git::https://<token>@github.com/devendraappa/Devendraappa/pvt-repo-module.git/./vpc-module"
-}"
-
+  source = "git::https://github.com/Devendraappa/pvt-repo-module.git//vpc-module"
+  token  = var.git_token
   region              = "ap-south-1"
   vpc_cidr            = "10.0.0.0/16"
   public_subnet_cidrs = ["10.0.1.0/24", "10.0.2.0/24"]
