@@ -1,4 +1,4 @@
-name: Deploy VPC-Module-Pvt
+name: Deploy VPC-Module
 
 on:
   push:
