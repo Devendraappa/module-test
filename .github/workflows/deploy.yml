@@ -25,11 +25,17 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-south-1
 
+    #- name: Set up Git credentials
+     # run: |
+      #  git config --global url."https://${{ secrets.GIT_TOKEN }}@github.com/".insteadOf "https://github.com/"
+       # git config --global url."https://${{ secrets.GIT_TOKEN }}@github.com/".insteadOf "ssh://git@github.com/"
+
     - name: Set up Git credentials
       run: |
+        git config --global user.name "Devendraapa"
+        git config --global user.email "devendraappa.kune@gmail.com"
         git config --global url."https://${{ secrets.GIT_TOKEN }}@github.com/".insteadOf "https://github.com/"
-        git config --global url."https://${{ secrets.GIT_TOKEN }}@github.com/".insteadOf "ssh://git@github.com/"
-
+        
     - name: Terraform Init
       run: terraform init
 
