@@ -34,4 +34,4 @@ jobs:
       run: terraform init
 
     - name: Apply Terraform
-      run: terraform apply -auto-approve -var "git_token=${{ secrets.GIT_TOKEN }}"
+      run: terraform apply -auto-approve
