@@ -1,9 +1,7 @@
-name: pvt moodule 
-
 on:
   push:
-    branches:
-      - main
+    tags:
+      - 'v*.*.*'
 
 jobs:
   terraform:
